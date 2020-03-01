@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const bcrypt = require('bcrypt-nodejs');
 var knex = require('knex');
@@ -11,14 +10,18 @@ const image = require('./controllers/image');
 const db = knex({
   client: 'pg',
   connection: {
-    connectionString: process.env.DATABASE_URL,
-    ssl: true
+    // connectionString: process.env.DATABASE_URL,
+    // ssl: true
+    host: '127.0.0.1',
+    user: 'postgres',
+    password: 'factory786',
+    database: 'smartbrain'
   }
 });
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(cors());
 
 app.get('/', (req, res)=>{
@@ -36,6 +39,6 @@ app.put('/image', (req, res)=>{image.handleImage(req, res, db)});
 app.post('/imageurl', (req, res)=>{image.handleApiCall(req, res)});
 
 app.listen(process.env.PORT || 3000, ()=>{
-	console.log(`app is running on port ${process.env.PORT} `)
+	console.log(`app is running on port ${3000} `)
 });
 
